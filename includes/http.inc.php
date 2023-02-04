@@ -1,5 +1,6 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/exceptions/HTTPResponseException.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/utils/http/get_request_body.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/utils/http/get_request_body_json.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/utils/http/get_request_header.php';

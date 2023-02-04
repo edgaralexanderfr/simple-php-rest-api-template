@@ -40,6 +40,15 @@ route('post', function () {
     send_response(CollectionController::retrieveAll(), 201);
 });
 
+route('patch', function () {
+    $id = get_request_param('id');
+    $params = get_request_body_json();
+
+    CollectionController::updateOne((string) $id, $params);
+
+    send_response(CollectionController::retrieveAll());
+});
+
 route('delete', function () {
     $id = get_request_param('id');
 

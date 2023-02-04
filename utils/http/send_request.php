@@ -1,5 +1,7 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/exceptions/HTTPResponseException.php';
+
 function send_request(string $url, string $method = 'GET', mixed $data = null, array $headers = []): stdClass|array|null
 {
     if (!$headers) {
@@ -25,9 +27,14 @@ function send_request(string $url, string $method = 'GET', mixed $data = null, a
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
     }
 
-    $response = curl_exec($curl);
+    $response = json_decode(curl_exec($curl));
+    $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
     curl_close($curl);
 
-    return json_decode($response);
+    if ($http_code >= 400) {
+        throw new \Exception\HTTPResponseException($http_code, $response);
+    }
+
+    return $response;
 }

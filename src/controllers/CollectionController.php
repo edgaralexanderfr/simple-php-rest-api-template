@@ -11,8 +11,8 @@ use \stdClass;
 
 class CollectionController
 {
-    private static $last_id = 5;
-    private static $collections = [];
+    private static int $last_id = 5;
+    private static array $collections = [];
 
     public static function init()
     {
@@ -50,6 +50,17 @@ class CollectionController
         self::$collections[] = $collection;
 
         return $collection;
+    }
+
+    public static function updateOne(string $id, stdClass $collection = null)
+    {
+        foreach (self::$collections as $i => $entry) {
+            if ($entry->id == $id) {
+                if (isset($collection->{'name'})) {
+                    self::$collections[$i]->name = $collection->name;
+                }
+            }
+        }
     }
 
     public static function deleteOne(string $id)
