@@ -2,7 +2,6 @@
 
 namespace Storage;
 
-
 class Storage
 {
     private static \PDO $pdo;
