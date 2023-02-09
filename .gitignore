@@ -1,3 +1,4 @@
+/config/auth.inc.php
 /config/pdo.inc.php
 /*.db
 /test.php

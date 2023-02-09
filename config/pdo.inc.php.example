@@ -1,0 +1,8 @@
+<?php
+
+return (object) [
+    'dsn' => '',
+    'username' => null,
+    'password' => null,
+    'options' => null,
+];

@@ -8,7 +8,7 @@ class Storage
 
     public static function init()
     {
-        $pdo_config = require_once $_SERVER['DOCUMENT_ROOT'] . '/config/pdo.inc.php';
+        $pdo_config = require $_SERVER['DOCUMENT_ROOT'] . '/config/pdo.inc.php';
 
         self::$pdo = new \PDO(
             $pdo_config->dsn,

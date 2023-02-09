@@ -2,6 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/http.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/src/includes/collection.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/src/includes/middlewares.inc.php';
 
 use Controller\CollectionController;
 use Exception\ResourceCreationException;
@@ -26,6 +27,8 @@ route('get', function () {
 });
 
 route('post', function () {
+    auth();
+
     $params = get_request_body_json();
 
     try {
@@ -41,6 +44,8 @@ route('post', function () {
 });
 
 route('patch', function () {
+    auth();
+
     $id = get_request_param('id');
     $params = get_request_body_json();
 
@@ -50,6 +55,8 @@ route('patch', function () {
 });
 
 route('delete', function () {
+    auth();
+
     $id = get_request_param('id');
 
     CollectionController::deleteOne((string) $id);
