@@ -43,19 +43,47 @@ class Storage
         }, $statement->fetchAll());
     }
 
-    public static function getOne(string $collection, \stdClass $data): ?\stdClass
+    public static function getOne(string $collection, \stdClass $conditions): ?\stdClass
     {
-        $conditions = self::getStatementConditions($data);
+        $where = self::getStatementConditions($conditions);
 
         $statement = self::$pdo->prepare(
-            "SELECT * FROM $collection WHERE $conditions;"
+            "SELECT * FROM $collection WHERE $where;"
         );
 
-        $statement->execute((array) $data);
+        $statement->execute((array) $conditions);
 
         $row = $statement->fetch(\PDO::FETCH_OBJ);
 
         return $row ? $row : null;
+    }
+
+    public static function updateOne(string $collection, \stdClass $data, \stdClass $conditions)
+    {
+        $fields = self::getStatementConditions($data);
+        $where = self::getStatementConditions($conditions);
+
+        $statement = self::$pdo->prepare(
+            "UPDATE $collection SET $fields WHERE $where;"
+        );
+
+        $statement->execute(
+            array_merge(
+                (array) $data,
+                (array) $conditions
+            )
+        );
+    }
+
+    public static function deleteOne(string $collection, \stdClass $conditions)
+    {
+        $where = self::getStatementConditions($conditions);
+
+        $statement = self::$pdo->prepare(
+            "DELETE FROM $collection WHERE $where;"
+        );
+
+        $statement->execute((array) $conditions);
     }
 
     private static function getStatementFields(\stdClass $data): string
@@ -70,11 +98,11 @@ class Storage
         }, array_keys((array) $data)));
     }
 
-    private static function getStatementConditions(\stdClass $data): string
+    private static function getStatementConditions(\stdClass $conditions): string
     {
         return implode(' AND ', array_map(function ($key) {
             return "$key = :$key";
-        }, array_keys((array) $data)));
+        }, array_keys((array) $conditions)));
     }
 }
 

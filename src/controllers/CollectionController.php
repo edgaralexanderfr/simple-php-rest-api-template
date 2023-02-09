@@ -31,10 +31,22 @@ class CollectionController
 
     public static function updateOne(string $id, stdClass $collection = null)
     {
+        $data = (object)[];
+
+        if (isset($collection->{'name'})) {
+            $data->name = $collection->name;
+        }
+
+        Storage::updateOne(self::COLLECTION, $data, (object) [
+            'id' => (int) $id,
+        ]);
     }
 
     public static function deleteOne(string $id)
     {
+        Storage::deleteOne(self::COLLECTION, (object) [
+            'id' => (int) $id,
+        ]);
     }
 
     public static function retrieveOneById(string $id): Collection|null
