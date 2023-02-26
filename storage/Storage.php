@@ -8,14 +8,7 @@ class Storage
 
     public static function init()
     {
-        $pdo_config = require $_SERVER['DOCUMENT_ROOT'] . '/config/pdo.inc.php';
-
-        self::$pdo = new \PDO(
-            $pdo_config->dsn,
-            $pdo_config->username,
-            $pdo_config->password,
-            $pdo_config->options
-        );
+        self::$pdo = require $_SERVER['DOCUMENT_ROOT'] . '/storage/pdo.inc.php';
     }
 
     public static function store(string $collection, \stdClass $data)
